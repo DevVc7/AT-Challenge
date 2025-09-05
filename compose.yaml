@@ -1,0 +1,19 @@
+name: at-challenge
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    environment:
+      - NODE_ENV=development
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "ATChal1enge!"
+    ports:
+      - "1433:1433"
