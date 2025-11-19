@@ -1,25 +1,20 @@
-using Dapper;
-using net.Data;
 using System;
+using System.Data.SqlClient;
+using Dapper;
 
 namespace net.Repositories
 {
     public class StatusRepository: IStatusRepository
     {
-        private readonly IStatusDbConnectionFactory _connectionFactory;
-
-        public StatusRepository(IStatusDbConnectionFactory connectionFactory)
-        {
-            _connectionFactory = connectionFactory;
-        }
 
         string IStatusRepository.getStatus()
         {
-            using (var connection = _connectionFactory.CreateConnection())
+            string connectionString = "Server=sqlserver;Database=master;User Id=sa;Password=ATChal1enge!;";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 try
                 {
-                    connection.Open();
                     return connection.ExecuteScalar<string>("SELECT 'running'");
                 }
                 catch (Exception ex)
